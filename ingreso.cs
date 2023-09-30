@@ -46,12 +46,7 @@ namespace WindowsFormsApp1
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
-        }
-
-        private void comboBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }      
+        }    
 
         private void comboBox1_Click(object sender, EventArgs e)
         {
@@ -179,15 +174,30 @@ namespace WindowsFormsApp1
                 command.Parameters.AddWithValue("@fechaFactura", Convert.ToDateTime(DateTime.Now));
                 command.ExecuteNonQuery();
                 conexion.Close();
-                SqlCommand commandSelectUltimo = new SqlCommand(@"SELECT TOP 1 idFactura FROM Factura ORDER BY idFactura DESC", conexion);
+                //SqlCommand commandSelectUltimo = new SqlCommand(@"SELECT TOP 1 idFactura FROM Factura ORDER BY idFactura DESC", conexion);
+                SqlCommand commandSelectUltimo = new SqlCommand(@"SELECT idFactura FROM Factura ORDER BY idFactura DESC", conexion);
                 SqlDataReader reader;
                 conexion.Open();
                 reader = commandSelectUltimo.ExecuteReader();
+
+                string idFactura = "";
+                if (reader.Read())
+                {
+                    idFactura = reader["idFactura"].ToString();
+                }
+                
                 conexion.Close();
+                command = new SqlCommand(@"INSERT INTO DetalleFactura (idFactura, idProducto, cantidad)
+                        VALUES (@idFactura, @idProducto, @cantidad)", conexion);
+                conexion.Open();
                 foreach (DataGridViewRow row in dgwDetalle.Rows)
                 {
-
+                    command.Parameters.AddWithValue("@idFactura", idFactura);
+                    command.Parameters.AddWithValue("@idProducto", row.Cells[1].ToString());
+                    command.Parameters.AddWithValue("@cantidad", row.Cells[3].ToString());
+                    command.ExecuteNonQuery();
                 }
+                conexion.Close();
             }
             else
             {

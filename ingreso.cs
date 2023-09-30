@@ -192,9 +192,11 @@ namespace WindowsFormsApp1
                 conexion.Open();
                 foreach (DataGridViewRow row in dgwDetalle.Rows)
                 {
+                    MessageBox.Show("Valor idFactura: " + idFactura);
                     command.Parameters.AddWithValue("@idFactura", idFactura);
-                    command.Parameters.AddWithValue("@idProducto", row.Cells[1].ToString());
-                    command.Parameters.AddWithValue("@cantidad", row.Cells[3].ToString());
+                    MessageBox.Show("Valor idProducto: " + row.Cells[""]);
+                    command.Parameters.AddWithValue("@idProducto", row.Cells[1]);
+                    command.Parameters.AddWithValue("@cantidad", row.Cells[3]);
                     command.ExecuteNonQuery();
                 }
                 conexion.Close();

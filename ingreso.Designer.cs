@@ -52,15 +52,16 @@
             this.txtDescripcionProducto = new System.Windows.Forms.TextBox();
             this.txtPrecioProducto = new System.Windows.Forms.TextBox();
             this.dgwDetalle = new System.Windows.Forms.DataGridView();
+            this.btnAgregarProducto = new System.Windows.Forms.Button();
+            this.btnGuardarFactura = new System.Windows.Forms.Button();
+            this.lblCantidadProductos = new System.Windows.Forms.Label();
+            this.txtCantidadProductos = new System.Windows.Forms.TextBox();
+            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.No = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Producto = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Precio = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Cantidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnAgregarProducto = new System.Windows.Forms.Button();
-            this.btnGuardarFactura = new System.Windows.Forms.Button();
-            this.lblCantidadProductos = new System.Windows.Forms.Label();
-            this.txtCantidadProductos = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.database1DataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.clienteBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgwDetalle)).BeginInit();
@@ -210,6 +211,7 @@
             // 
             this.dgwDetalle.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgwDetalle.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.id,
             this.No,
             this.Producto,
             this.Precio,
@@ -220,6 +222,49 @@
             this.dgwDetalle.Size = new System.Drawing.Size(678, 241);
             this.dgwDetalle.TabIndex = 15;
             this.dgwDetalle.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            // 
+            // btnAgregarProducto
+            // 
+            this.btnAgregarProducto.Location = new System.Drawing.Point(437, 226);
+            this.btnAgregarProducto.Name = "btnAgregarProducto";
+            this.btnAgregarProducto.Size = new System.Drawing.Size(125, 23);
+            this.btnAgregarProducto.TabIndex = 16;
+            this.btnAgregarProducto.Text = "Agregar producto";
+            this.btnAgregarProducto.UseVisualStyleBackColor = true;
+            this.btnAgregarProducto.Click += new System.EventHandler(this.btnAgregarProducto_Click);
+            // 
+            // btnGuardarFactura
+            // 
+            this.btnGuardarFactura.Location = new System.Drawing.Point(324, 554);
+            this.btnGuardarFactura.Name = "btnGuardarFactura";
+            this.btnGuardarFactura.Size = new System.Drawing.Size(126, 23);
+            this.btnGuardarFactura.TabIndex = 17;
+            this.btnGuardarFactura.Text = "Guardar factura";
+            this.btnGuardarFactura.UseVisualStyleBackColor = true;
+            this.btnGuardarFactura.Click += new System.EventHandler(this.btnGuardarFactura_Click);
+            // 
+            // lblCantidadProductos
+            // 
+            this.lblCantidadProductos.AutoSize = true;
+            this.lblCantidadProductos.Location = new System.Drawing.Point(366, 196);
+            this.lblCantidadProductos.Name = "lblCantidadProductos";
+            this.lblCantidadProductos.Size = new System.Drawing.Size(117, 13);
+            this.lblCantidadProductos.TabIndex = 18;
+            this.lblCantidadProductos.Text = "Cantidad de productos:";
+            // 
+            // txtCantidadProductos
+            // 
+            this.txtCantidadProductos.Location = new System.Drawing.Point(500, 196);
+            this.txtCantidadProductos.Name = "txtCantidadProductos";
+            this.txtCantidadProductos.Size = new System.Drawing.Size(215, 20);
+            this.txtCantidadProductos.TabIndex = 19;
+            this.txtCantidadProductos.Validating += new System.ComponentModel.CancelEventHandler(this.txtCantidadProductos_Validating);
+            // 
+            // id
+            // 
+            this.id.Frozen = true;
+            this.id.HeaderText = "id";
+            this.id.Name = "id";
             // 
             // No
             // 
@@ -266,43 +311,6 @@
             this.Total.HeaderText = "Total";
             this.Total.Name = "Total";
             this.Total.ReadOnly = true;
-            // 
-            // btnAgregarProducto
-            // 
-            this.btnAgregarProducto.Location = new System.Drawing.Point(437, 226);
-            this.btnAgregarProducto.Name = "btnAgregarProducto";
-            this.btnAgregarProducto.Size = new System.Drawing.Size(125, 23);
-            this.btnAgregarProducto.TabIndex = 16;
-            this.btnAgregarProducto.Text = "Agregar producto";
-            this.btnAgregarProducto.UseVisualStyleBackColor = true;
-            this.btnAgregarProducto.Click += new System.EventHandler(this.btnAgregarProducto_Click);
-            // 
-            // btnGuardarFactura
-            // 
-            this.btnGuardarFactura.Location = new System.Drawing.Point(324, 554);
-            this.btnGuardarFactura.Name = "btnGuardarFactura";
-            this.btnGuardarFactura.Size = new System.Drawing.Size(126, 23);
-            this.btnGuardarFactura.TabIndex = 17;
-            this.btnGuardarFactura.Text = "Guardar factura";
-            this.btnGuardarFactura.UseVisualStyleBackColor = true;
-            this.btnGuardarFactura.Click += new System.EventHandler(this.btnGuardarFactura_Click);
-            // 
-            // lblCantidadProductos
-            // 
-            this.lblCantidadProductos.AutoSize = true;
-            this.lblCantidadProductos.Location = new System.Drawing.Point(366, 196);
-            this.lblCantidadProductos.Name = "lblCantidadProductos";
-            this.lblCantidadProductos.Size = new System.Drawing.Size(117, 13);
-            this.lblCantidadProductos.TabIndex = 18;
-            this.lblCantidadProductos.Text = "Cantidad de productos:";
-            // 
-            // txtCantidadProductos
-            // 
-            this.txtCantidadProductos.Location = new System.Drawing.Point(500, 196);
-            this.txtCantidadProductos.Name = "txtCantidadProductos";
-            this.txtCantidadProductos.Size = new System.Drawing.Size(215, 20);
-            this.txtCantidadProductos.TabIndex = 19;
-            this.txtCantidadProductos.Validating += new System.ComponentModel.CancelEventHandler(this.txtCantidadProductos_Validating);
             // 
             // ingreso
             // 
@@ -359,13 +367,14 @@
         private System.Windows.Forms.TextBox txtPrecioProducto;
         private System.Windows.Forms.DataGridView dgwDetalle;
         private System.Windows.Forms.Button btnAgregarProducto;
+        private System.Windows.Forms.Button btnGuardarFactura;
+        private System.Windows.Forms.Label lblCantidadProductos;
+        private System.Windows.Forms.TextBox txtCantidadProductos;
+        private System.Windows.Forms.DataGridViewTextBoxColumn id;
         private System.Windows.Forms.DataGridViewTextBoxColumn No;
         private System.Windows.Forms.DataGridViewTextBoxColumn Producto;
         private System.Windows.Forms.DataGridViewTextBoxColumn Precio;
         private System.Windows.Forms.DataGridViewTextBoxColumn Cantidad;
         private System.Windows.Forms.DataGridViewTextBoxColumn Total;
-        private System.Windows.Forms.Button btnGuardarFactura;
-        private System.Windows.Forms.Label lblCantidadProductos;
-        private System.Windows.Forms.TextBox txtCantidadProductos;
     }
 }

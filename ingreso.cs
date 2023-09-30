@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,8 @@ namespace WindowsFormsApp1
         DataTable dataTable         = new DataTable();
         DataTable dataTableProducto = new DataTable();
         int contadorDGV = 0;
+        decimal totalFactura = 0;
+        int idCliente = 0;
         private void ingreso_Load(object sender, EventArgs e)
         {
             // TODO: esta línea de código carga datos en la tabla 'database1DataSet.cliente' Puede moverla o quitarla según sea necesario.
@@ -47,17 +50,13 @@ namespace WindowsFormsApp1
 
         private void comboBox1_TextChanged(object sender, EventArgs e)
         {
-            try {
 
-            }
-            catch {
-
-            }
         }      
 
         private void comboBox1_Click(object sender, EventArgs e)
         {
             int seleccionado = int.Parse(comboBox1.SelectedValue.ToString()) - 1;
+            idCliente = seleccionado + 1;
             txtNombreCliente.Text = dataTable.Rows[seleccionado][1].ToString();
             txtDireccionCliente.Text = dataTable.Rows[seleccionado][2].ToString();
         }
@@ -67,6 +66,7 @@ namespace WindowsFormsApp1
             try
             {
                 int seleccionado = int.Parse(comboBox1.SelectedValue.ToString()) - 1;
+                idCliente = seleccionado + 1;
                 txtNombreCliente.Text = dataTable.Rows[seleccionado][1].ToString();
                 txtDireccionCliente.Text = dataTable.Rows[seleccionado][2].ToString();
             } 
@@ -76,6 +76,7 @@ namespace WindowsFormsApp1
         private void comboBox1_Leave(object sender, EventArgs e)
         {
             int seleccionado = int.Parse(comboBox1.SelectedValue.ToString()) - 1;
+            idCliente = seleccionado + 1;
             txtNombreCliente.Text = dataTable.Rows[seleccionado][1].ToString();
             txtDireccionCliente.Text = dataTable.Rows[seleccionado][2].ToString();
         }
@@ -115,16 +116,24 @@ namespace WindowsFormsApp1
         private void btnAgregarProducto_Click(object sender, EventArgs e)
         {
             contadorDGV++;
-            /*
-            int? userVal;
-            if (int.TryParse(txtPrecioProducto.Text), out userVal)
-            {
-
-            }
-            */
-            decimal total;
+            decimal total = 0;
+          
             total = decimal.Parse(txtPrecioProducto.Text) * decimal.Parse(txtCantidadProductos.Text);
-            dgwDetalle.Rows.Add(contadorDGV.ToString(), txtNombreProducto.Text, txtPrecioProducto.Text, txtCantidadProductos.Text, total.ToString(), "x");
+
+            if (contadorDGV == 1)
+            {
+                dgwDetalle.Rows.Add(contadorDGV.ToString(), txtNombreProducto.Text, txtPrecioProducto.Text, txtCantidadProductos.Text, total.ToString(), "x");
+                totalFactura = totalFactura + total;               
+                dgwDetalle.Rows.Add(" ", " ", " ", "Total", totalFactura.ToString());                
+            }
+            else
+            {
+                dgwDetalle.Rows.RemoveAt(contadorDGV - 1);
+                dgwDetalle.Rows.Add(contadorDGV.ToString(), txtNombreProducto.Text, txtPrecioProducto.Text, txtCantidadProductos.Text, total.ToString(), "x");
+                totalFactura = totalFactura + total;                
+                dgwDetalle.Rows.Add(" ", " ", " ", "Total", totalFactura.ToString());
+            }
+
         }
 
         private void txtCantidadProductos_Validating(object sender, CancelEventArgs e)
@@ -150,6 +159,40 @@ namespace WindowsFormsApp1
             }
             if (e.Cancel)
                 MessageBox.Show("Debe ingresar una cantidad entera y distinta de cero.");
+        }
+
+        private void btnGuardarFactura_Click(object sender, EventArgs e)
+        {
+            // Validar que haya productos ingresados
+            if (totalFactura != 0)
+            {
+                if (idCliente != 0)
+                {
+
+                }
+                SqlConnection conexion = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\oagalindo\Documents\me\2023\p\app\WindowsFormsApp1\Database1.mdf;Integrated Security=True");
+                SqlCommand command = new SqlCommand(@"INSERT INTO Factura (idCliente, totalFactura, fechaFactura)
+                    VALUES(@idCliente, @totalFactura, @fechaFactura)", conexion);
+                conexion.Open();
+                command.Parameters.AddWithValue("@idCliente", idCliente.ToString());
+                command.Parameters.AddWithValue("@totalFactura", totalFactura.ToString());
+                command.Parameters.AddWithValue("@fechaFactura", Convert.ToDateTime(DateTime.Now));
+                command.ExecuteNonQuery();
+                conexion.Close();
+                SqlCommand commandSelectUltimo = new SqlCommand(@"SELECT TOP 1 idFactura FROM Factura ORDER BY idFactura DESC", conexion);
+                SqlDataReader reader;
+                conexion.Open();
+                reader = commandSelectUltimo.ExecuteReader();
+                conexion.Close();
+                foreach (DataGridViewRow row in dgwDetalle.Rows)
+                {
+
+                }
+            }
+            else
+            {
+                MessageBox.Show("No hay productos agregados");
+            }
         }
     }
 }

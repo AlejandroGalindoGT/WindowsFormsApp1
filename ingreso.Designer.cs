@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label1 = new System.Windows.Forms.Label();
             this.database1DataSet = new WindowsFormsApp1.Database1DataSet();
             this.clienteBindingSource = new System.Windows.Forms.BindingSource(this.components);
@@ -58,7 +58,7 @@
             this.Cantidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnAgregarProducto = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnGuardarFactura = new System.Windows.Forms.Button();
             this.lblCantidadProductos = new System.Windows.Forms.Label();
             this.txtCantidadProductos = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.database1DataSet)).BeginInit();
@@ -223,8 +223,8 @@
             // 
             // No
             // 
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.No.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.No.DefaultCellStyle = dataGridViewCellStyle1;
             this.No.Frozen = true;
             this.No.HeaderText = "No";
             this.No.Name = "No";
@@ -232,8 +232,8 @@
             // 
             // Producto
             // 
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Producto.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Producto.DefaultCellStyle = dataGridViewCellStyle2;
             this.Producto.Frozen = true;
             this.Producto.HeaderText = "Producto";
             this.Producto.Name = "Producto";
@@ -242,8 +242,8 @@
             // 
             // Precio
             // 
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Precio.DefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Precio.DefaultCellStyle = dataGridViewCellStyle3;
             this.Precio.Frozen = true;
             this.Precio.HeaderText = "Precio";
             this.Precio.Name = "Precio";
@@ -251,8 +251,8 @@
             // 
             // Cantidad
             // 
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Cantidad.DefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Cantidad.DefaultCellStyle = dataGridViewCellStyle4;
             this.Cantidad.Frozen = true;
             this.Cantidad.HeaderText = "Cantidad";
             this.Cantidad.Name = "Cantidad";
@@ -260,8 +260,8 @@
             // 
             // Total
             // 
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Total.DefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Total.DefaultCellStyle = dataGridViewCellStyle5;
             this.Total.Frozen = true;
             this.Total.HeaderText = "Total";
             this.Total.Name = "Total";
@@ -277,19 +277,20 @@
             this.btnAgregarProducto.UseVisualStyleBackColor = true;
             this.btnAgregarProducto.Click += new System.EventHandler(this.btnAgregarProducto_Click);
             // 
-            // button1
+            // btnGuardarFactura
             // 
-            this.button1.Location = new System.Drawing.Point(342, 553);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(126, 23);
-            this.button1.TabIndex = 17;
-            this.button1.Text = "Guardar factura";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnGuardarFactura.Location = new System.Drawing.Point(324, 554);
+            this.btnGuardarFactura.Name = "btnGuardarFactura";
+            this.btnGuardarFactura.Size = new System.Drawing.Size(126, 23);
+            this.btnGuardarFactura.TabIndex = 17;
+            this.btnGuardarFactura.Text = "Guardar factura";
+            this.btnGuardarFactura.UseVisualStyleBackColor = true;
+            this.btnGuardarFactura.Click += new System.EventHandler(this.btnGuardarFactura_Click);
             // 
             // lblCantidadProductos
             // 
             this.lblCantidadProductos.AutoSize = true;
-            this.lblCantidadProductos.Location = new System.Drawing.Point(368, 196);
+            this.lblCantidadProductos.Location = new System.Drawing.Point(366, 196);
             this.lblCantidadProductos.Name = "lblCantidadProductos";
             this.lblCantidadProductos.Size = new System.Drawing.Size(117, 13);
             this.lblCantidadProductos.TabIndex = 18;
@@ -310,7 +311,7 @@
             this.ClientSize = new System.Drawing.Size(771, 608);
             this.Controls.Add(this.txtCantidadProductos);
             this.Controls.Add(this.lblCantidadProductos);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnGuardarFactura);
             this.Controls.Add(this.btnAgregarProducto);
             this.Controls.Add(this.dgwDetalle);
             this.Controls.Add(this.txtPrecioProducto);
@@ -363,7 +364,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Precio;
         private System.Windows.Forms.DataGridViewTextBoxColumn Cantidad;
         private System.Windows.Forms.DataGridViewTextBoxColumn Total;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnGuardarFactura;
         private System.Windows.Forms.Label lblCantidadProductos;
         private System.Windows.Forms.TextBox txtCantidadProductos;
     }

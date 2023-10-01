@@ -114,23 +114,29 @@ namespace WindowsFormsApp1
 
         private void btnAgregarProducto_Click(object sender, EventArgs e)
         {
-            contadorDGV++;
-            decimal total = 0;
-          
-            total = decimal.Parse(txtPrecioProducto.Text) * decimal.Parse(txtCantidadProductos.Text);
-
-            if (contadorDGV == 1)
-            {
-                dgwDetalle.Rows.Add(idProducto, contadorDGV.ToString(), txtNombreProducto.Text, txtPrecioProducto.Text, txtCantidadProductos.Text, total.ToString(), "x");
-                totalFactura = totalFactura + total;               
-                dgwDetalle.Rows.Add("0", " ", " ", " ", "Total", totalFactura.ToString());                
-            }
+            // Validar que se haya seleccionado un producto            
+            if (txtNombreProducto.Text == "")
+                MessageBox.Show("Seleccione un producto.");
             else
             {
-                dgwDetalle.Rows.RemoveAt(contadorDGV - 1);
-                dgwDetalle.Rows.Add(idProducto, contadorDGV.ToString(), txtNombreProducto.Text, txtPrecioProducto.Text, txtCantidadProductos.Text, total.ToString(), "x");
-                totalFactura = totalFactura + total;                
-                dgwDetalle.Rows.Add("0", " ", " ", " ", "Total", totalFactura.ToString());
+                contadorDGV++;
+                decimal total = 0;
+
+                total = decimal.Parse(txtPrecioProducto.Text) * decimal.Parse(txtCantidadProductos.Text);
+
+                if (contadorDGV == 1)
+                {
+                    dgwDetalle.Rows.Add(idProducto, contadorDGV.ToString(), txtNombreProducto.Text, txtPrecioProducto.Text, txtCantidadProductos.Text, total.ToString(), "x");
+                    totalFactura = totalFactura + total;
+                    dgwDetalle.Rows.Add("0", " ", " ", " ", "Total", totalFactura.ToString());
+                }
+                else
+                {
+                    dgwDetalle.Rows.RemoveAt(contadorDGV - 1);
+                    dgwDetalle.Rows.Add(idProducto, contadorDGV.ToString(), txtNombreProducto.Text, txtPrecioProducto.Text, txtCantidadProductos.Text, total.ToString(), "x");
+                    totalFactura = totalFactura + total;
+                    dgwDetalle.Rows.Add("0", " ", " ", " ", "Total", totalFactura.ToString());
+                }
             }
 
         }
@@ -178,7 +184,6 @@ namespace WindowsFormsApp1
                 command.Parameters.AddWithValue("@fechaFactura", Convert.ToDateTime(DateTime.Now));
                 command.ExecuteNonQuery();
                 conexion.Close();
-                //SqlCommand commandSelectUltimo = new SqlCommand(@"SELECT TOP 1 idFactura FROM Factura ORDER BY idFactura DESC", conexion);
                 SqlCommand commandSelectUltimo = new SqlCommand(@"SELECT idFactura FROM Factura ORDER BY idFactura DESC", conexion);
                 SqlDataReader reader;
                 conexion.Open();
@@ -200,15 +205,15 @@ namespace WindowsFormsApp1
                         command = new SqlCommand(@"INSERT INTO DetalleFactura (idFactura, idProducto, cantidad)
                         VALUES (@idFactura, @idProducto, @cantidad)", conexion);
                         conexion.Open();
-                        MessageBox.Show("Valor idFactura: " + idFactura);
                         command.Parameters.AddWithValue("@idFactura", idFactura);
-                        MessageBox.Show("Valor idProducto: " + row.Cells["id"].Value);
                         command.Parameters.AddWithValue("@idProducto", row.Cells["id"].Value);
                         command.Parameters.AddWithValue("@cantidad", row.Cells["cantidad"].Value);
                         command.ExecuteNonQuery();
                         conexion.Close();
                     }
-                }                
+                }
+                //Limpiar dgwDetalle
+                dgwDetalle.Rows.Clear();
             }
             else
             {

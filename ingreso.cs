@@ -23,6 +23,7 @@ namespace WindowsFormsApp1
         int contadorDGV = 0;
         decimal totalFactura = 0;
         int idCliente = 0;
+        int idProducto = 0;
         private void ingreso_Load(object sender, EventArgs e)
         {
             // TODO: esta línea de código carga datos en la tabla 'database1DataSet.cliente' Puede moverla o quitarla según sea necesario.
@@ -82,6 +83,7 @@ namespace WindowsFormsApp1
             txtNombreProducto.Text = dataTableProducto.Rows[seleccionado][1].ToString();
             txtDescripcionProducto.Text = dataTableProducto.Rows[seleccionado][2].ToString();
             txtPrecioProducto.Text = dataTableProducto.Rows[seleccionado][3].ToString();
+            idProducto = int.Parse(dataTableProducto.Rows[seleccionado][0].ToString());           
         }
 
         private void cmbProducto_Click(object sender, EventArgs e)
@@ -90,6 +92,7 @@ namespace WindowsFormsApp1
             txtNombreProducto.Text = dataTableProducto.Rows[seleccionado][1].ToString();
             txtDescripcionProducto.Text = dataTableProducto.Rows[seleccionado][2].ToString();
             txtPrecioProducto.Text = dataTableProducto.Rows[seleccionado][3].ToString();
+            idProducto = int.Parse(dataTableProducto.Rows[seleccionado][0].ToString());
         }
 
         private void cmbProducto_SelectedIndexChanged(object sender, EventArgs e)
@@ -100,6 +103,7 @@ namespace WindowsFormsApp1
                 txtNombreProducto.Text = dataTableProducto.Rows[seleccionado][1].ToString();
                 txtDescripcionProducto.Text = dataTableProducto.Rows[seleccionado][2].ToString();
                 txtPrecioProducto.Text = dataTableProducto.Rows[seleccionado][3].ToString();
+                idProducto = int.Parse(dataTableProducto.Rows[seleccionado][0].ToString());
 
             }
             catch (Exception ex)
@@ -117,16 +121,16 @@ namespace WindowsFormsApp1
 
             if (contadorDGV == 1)
             {
-                dgwDetalle.Rows.Add(contadorDGV.ToString(), txtNombreProducto.Text, txtPrecioProducto.Text, txtCantidadProductos.Text, total.ToString(), "x");
+                dgwDetalle.Rows.Add(idProducto, contadorDGV.ToString(), txtNombreProducto.Text, txtPrecioProducto.Text, txtCantidadProductos.Text, total.ToString(), "x");
                 totalFactura = totalFactura + total;               
-                dgwDetalle.Rows.Add(" ", " ", " ", "Total", totalFactura.ToString());                
+                dgwDetalle.Rows.Add("0", " ", " ", " ", "Total", totalFactura.ToString());                
             }
             else
             {
                 dgwDetalle.Rows.RemoveAt(contadorDGV - 1);
-                dgwDetalle.Rows.Add(contadorDGV.ToString(), txtNombreProducto.Text, txtPrecioProducto.Text, txtCantidadProductos.Text, total.ToString(), "x");
+                dgwDetalle.Rows.Add(idProducto, contadorDGV.ToString(), txtNombreProducto.Text, txtPrecioProducto.Text, txtCantidadProductos.Text, total.ToString(), "x");
                 totalFactura = totalFactura + total;                
-                dgwDetalle.Rows.Add(" ", " ", " ", "Total", totalFactura.ToString());
+                dgwDetalle.Rows.Add("0", " ", " ", " ", "Total", totalFactura.ToString());
             }
 
         }
@@ -184,22 +188,27 @@ namespace WindowsFormsApp1
                 if (reader.Read())
                 {
                     idFactura = reader["idFactura"].ToString();
-                }
-                
+                }                
                 conexion.Close();
-                command = new SqlCommand(@"INSERT INTO DetalleFactura (idFactura, idProducto, cantidad)
-                        VALUES (@idFactura, @idProducto, @cantidad)", conexion);
-                conexion.Open();
+                
                 foreach (DataGridViewRow row in dgwDetalle.Rows)
                 {
-                    MessageBox.Show("Valor idFactura: " + idFactura);
-                    command.Parameters.AddWithValue("@idFactura", idFactura);
-                    MessageBox.Show("Valor idProducto: " + row.Cells[""]);
-                    command.Parameters.AddWithValue("@idProducto", row.Cells[1]);
-                    command.Parameters.AddWithValue("@cantidad", row.Cells[3]);
-                    command.ExecuteNonQuery();
-                }
-                conexion.Close();
+                    if (row.Cells["id"].Value.ToString() == "0")
+                        break;
+                    else
+                    {
+                        command = new SqlCommand(@"INSERT INTO DetalleFactura (idFactura, idProducto, cantidad)
+                        VALUES (@idFactura, @idProducto, @cantidad)", conexion);
+                        conexion.Open();
+                        MessageBox.Show("Valor idFactura: " + idFactura);
+                        command.Parameters.AddWithValue("@idFactura", idFactura);
+                        MessageBox.Show("Valor idProducto: " + row.Cells["id"].Value);
+                        command.Parameters.AddWithValue("@idProducto", row.Cells["id"].Value);
+                        command.Parameters.AddWithValue("@cantidad", row.Cells["cantidad"].Value);
+                        command.ExecuteNonQuery();
+                        conexion.Close();
+                    }
+                }                
             }
             else
             {

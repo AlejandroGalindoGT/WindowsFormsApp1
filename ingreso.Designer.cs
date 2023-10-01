@@ -265,6 +265,7 @@
             this.id.Frozen = true;
             this.id.HeaderText = "id";
             this.id.Name = "id";
+            this.id.Visible = false;
             // 
             // No
             // 
